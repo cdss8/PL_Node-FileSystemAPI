@@ -1,0 +1,14 @@
+{
+  "name": "Node-FSAPI",
+  "version": "0.1.2",
+  "private": true,
+  "description": "A RESTful FileSystem API for NodeJS ",
+  "dependencies": {
+    "express": "^4.18.2",
+    "fs-extra": "~0.6.X",
+    "md5-file": "^3.1.1",
+    "restify": "^11.1.0"
+  },
+  "author": "cdss8",
+  "license": "MIT"
+}

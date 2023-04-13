@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox Node-File System API</title>
+    
+        <style>
+            
+            html, body {
+                width: 700px;
+                margin: 0 auto;
+                font: 12px normal Arial, Helvetica, sans-serif; 
+            }
+            
+            body { padding-top: 100px; }
+            
+            #editor, #editorContainer {
+                display: block;
+                width: 700px;
+                height: 250px;
+                font-size: 15px;
+            }
+            
+            #output {
+                width: 700px;
+                height: 250px;
+                background-color: #141414;
+                color: #fff;
+                font: 13px normal "Courier New", Courier, monospace;
+            }
+            
+        </style>
+        
+    </head>
+    
+    <body>
+        
+        <h1>Node-FSAPI Testing</h1>
+
+        <h2>Test Code:</h2>
+        <div id="editorContainer">
+        <div id="editor"></div>
+        </div>
+        
+        <button id="run">Run Code</button>
+        
+        <h2>Output:</h2>
+        <div id="output"></div>
+        
+        <script src="../client.js"></script>
+        <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+            
+            // Setup Editor
+            var editor = ace.edit("editor"); 
+            editor.setTheme("ace/theme/twilight"); 
+            editor.getSession().setMode("ace/mode/javascript");
+            editor.setShowPrintMargin = false;
+            
+            editor.setValue("// Set config => url, key\nfsapi.config('http://"+document.domain+":8080', '12345');\n\n//List contents of root dir\nfsapi.list('/', function (res) {\n    output.setValue(JSON.stringify(res, null, 4));\n});");
+            editor.gotoLine(1);
+            
+
+            // Setup Output
+            var output = ace.edit("output"); 
+            output.setTheme("ace/theme/twilight"); 
+            output.getSession().setMode("ace/mode/javascript");
+            output.setShowPrintMargin = false;
+            
+            output.setReadOnly(true);
+            
+            
+            // Process
+            function runCode () {
+                var code = editor.getValue();
+                output.setValue('Loading...');
+                eval(code); 
+            }
+            
+            var runner = document.getElementById('run');
+            runner.addEventListener("click", runCode, false);
+            
+            
+        </script>    
+    </body>
+    
+</html>

@@ -1,0 +1,113 @@
+# Laboratory 2
+
+
+# Node js FileSystem API
+Node-FSAPI provides a RESTful (CRUD) server for interacting with remote file systems. It relies on
+GET (Read), POST (Create), PUT (Update), and DELETE (Delete) commands with a plain-language syntax.
+
+
+# Importat
+This is a modified solution from the internet adapted to the laboratory 2 of Programming Languages.
+In the code you can read the comment of any single step
+
+
+
+FSAPI provides a single-file `server.js` node controller with 2 core dependencies -
+- [Restify](http://restify.com/). Restify is a framework built specifically to build REST web services in Node. js frameworks such as Express. js and Hapi.
+- [node-fs-extra](https://github.com/jprichardson/node-fs-extra). The file contains a `config` object which allows for easy configuration.
+- [md5-file](https://www.npmjs.com/package/md5-file) Calculates an MD5 for the saved file.
+The server uses a `config` object to easily setup how it will run:
+
+
+# Node-FSAPI Example Folder
+This example can be run on any server and allows you to test code using the `client.js` methods against your server instance.
+
+
+
+### Installation
+- 'npm install ' or 'npm update' for installing the libaries dependencies to your VScode consol
+- 'npm audit fix' or 'npm audit fix --force' if they're still vulnerabilities while downloading the dependencies.
+
+
+
+##### REST_API
+
+### GET (Read)
+**Directory Listing** ==> 'GET => {server}:{port}/{key}/dir/{path}'
+**Read File** ==> 'GET => {server}:{port}/{key}/file/{path}'
+
+
+
+### POST (Create)
+**Create Directory** ==>'POST => {server}:{port}/{key}/dir/{path}`
+**Create File** ==>`POST => {server}:{port}/{key}/file/{path}`
+
+
+
+### PUT (Update)
+**Rename File or Directory** ==> 'PUT => {server}:{port}/{key}/rename/{path}`
+`PUT`parameter`name` required with the new file or directory name (no path required)
+
+**Save Contents to File** ==> 'PUT => {server}:{port}/{key}/file/{path}`
+
+
+
+### DELETE
+**Delete a File or Directory**
+`DELETE => {server}:{port}/{key}/{path}`
+
+
+### Config
+
+Initially it is important to define the connection information, which is done through the following:
+
+```
+fsapi.config("http://yourserver:port", "api-key", {OPTIONAL - Bool 'Validate'});
+```
+The config process (with arguments) sets these values into localStorage (with Cookie fallback). There is a third argument `validate` which defaults to `true`.
+If set to `false` in the config call above the entire response from the server will be returned and must be parsed manually.
+Calling `fsapi.config()` without arguments will return an object with the url and key. You can change either value individually using:
+
+```
+// Set new URL
+fsapi.store('fsapiUrl', {new-value});
+
+// Set new Key
+fsapi.store('fsapiKey', {new-value});
+```
+
+
+### Methods used
+
+The following methods are natively available, but can easily be expanded upon:
+
+```
+// List Contents of Directory
+fsapi.list(path, callback);
+
+// Return Contents of File
+fsapi.open(path, callback);
+
+// Create a New File
+fsapi.createFile(path, callback);
+
+// Create a New Directory
+fsapi.createDirectory(path, callback);
+
+// Create a Copy of a File or Directory (recursive)
+fsapi.copy(path, destination, callback);
+
+// Move a File or Directory (Cut+Paste)
+fsapi.move(path, destination, callback);
+
+// Save Contents to a File
+fsapi.save(path, contents, callback);
+
+// Rename a File or Directory
+fsapi.rename(path, new_name, callback);
+
+// Delete a File or Directory
+fsapi.delete(path, callback);
+```
+
+Callbacks for each method returns the response from the server (validated by default, see below) by passing in the `res` argument.
